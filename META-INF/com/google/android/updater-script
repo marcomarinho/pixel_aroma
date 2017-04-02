@@ -1,0 +1,158 @@
+#
+# Updater-script for Google Pixel AROMA Apps
+# By MarcoMarinho
+ui_print("==============================================");
+ui_print("           Google Pixel AROMA Apps            ");
+ui_print("==============================================");
+ui_print(" Brought to you by:                           ");
+ui_print("  * marcomarinho                              ");
+ui_print("  @ XDADevelopers 2017                        ");
+ui_print("==============================================");
+ui_print("    !Special Thans to amarullz & Daniiiik49   ");
+ui_print("       Remember: Always perform backups!      ");
+ui_print("==============================================");
+ui_print("  WARNING: This mod has only been tested on   ");
+ui_print(" devices I own. Please see the thread over at ");
+ui_print(" XDA for more information regarding supported ");
+ui_print("                    devices.                  ");
+ui_print("==============================================");
+ui_print(" ");
+
+ui_print(">> Mounting partitions");
+set_progress(0.15);
+run_program("/sbin/busybox", "mount", "/system");
+ui_print("");
+ui_print("");
+
+ui_print(">> Writing System");
+set_progress(0.30);
+package_extract_dir("common/system", "/system");
+
+ui_print(">> Formatting Cache & Dalvik Cache");
+delete_recursive("/cache");
+delete_recursive("/data/dalvik-cache");
+
+
+########## AROMA ##########
+
+# Options for Google Pixel Apps
+
+if file_getprop("checkbox.prop","item.0.1") == "1" then
+ui_print(">>> Installing Pixel Launcher ");
+delete("/system/app/Launcher3");
+package_extract_dir("system/priv-app/PixelLauncher.apk", "/system/priv-app/PixelLauncher");
+endif;
+
+if file_getprop("checkbox.prop","item.0.2") == "1" then
+ui_print(">>> Installing Pixel Launcher Icons ");
+package_extract_dir("system/app/PixelIcons.apk", "/system/app/PixelIcons");
+endif;
+
+if file_getprop("checkbox.prop","item.0.3") == "1" then
+ui_print(">>> Installing Pixel Sounds");
+package_extract_dir("system/media/audio", "/system/media/audio");
+endif;
+
+if file_getprop("checkbox.prop","item.0.4") == "1" then
+ui_print(">>> Deleting stock calculator");
+delete("/system/app/ExactCalculator");
+ui_print(">>> Installing Google Calculator");
+package_extract_dir("data/app/GoogleCalculator.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.5") == "1" then
+ui_print(">>> Deleting stock calendar");
+delete("/system/app/Calendar");
+ui_print(">>> Installing Google Calendar");
+package_extract_dir("data/app/GoogleCalendar.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.6") == "1" then
+ui_print(">>> Deleting stock browser");
+delete("/system/app/Browser2");
+ui_print(">>> Installing Google Chrome");
+package_extract_dir("data/app/GoogleChrome.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.7") == "1" then
+ui_print(">>> Deleting stock clock");
+delete("/system/app/DeskClock");
+ui_print(">>> Installing Google Clock");
+package_extract_dir("data/app/GoogleClock.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.8") == "1" then
+ui_print(">>> Deleting stock dialer & contacts");
+delete("/system/priv-app/Contacts");
+delete("/system/priv-app/Dialer");
+ui_print(">>> Installing Google Dialer & Contacts");
+package_extract_dir("data/app/GoogleContacts.apk", "/data/app");
+package_extract_dir("data/app/GoogleDialer.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.9") == "1" then
+ui_print(">>> Deleting stock keyboard");
+delete("/system/app/LatinIME");
+ui_print(">>> Installing G-Board");
+package_extract_dir("data/app/LatinIME.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.10") == "1" then
+ui_print(">>> Deleting stock messages");
+delete("/system/app/messaging");
+ui_print(">>> Installing Google Messages");
+package_extract_dir("data/app/GoogleMessages.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.11") == "1" then
+ui_print(">>> Installing Google Wallpapers");
+package_extract_dir("data/app/GoogleWallpapers.apk", "/data/app");
+package_extract_dir("data/app/GoogleWallpapersUsTwo.apk", "/data/app");
+endif;
+
+if file_getprop("checkbox.prop","item.0.12") == "1" then
+ui_print(">>> Deleting stock webview");
+delete("/system/app/webview");
+ui_print(">>> Installing Google WebView");
+package_extract_dir("data/app/GoogleWebView.apk", "/data/app");
+endif;
+
+# Options for selectbox
+
+if file_getprop("selectbox.prop","selected.0") == "1" then
+ui_print(">>> Deleting old bootanimation");
+delete("/system/media/bootanimation.zip");
+ui_print(">>> Installing Pixel Black BootAnimation");
+package_extract_dir("system/media/black.zip", "/system/media/bootanimation.zip");
+endif;
+
+if file_getprop("selectbox.prop","selected.0") == "2" then
+ui_print(">>> Deleting old bootanimation");
+delete("/system/media/bootanimation.zip");
+ui_print(">>> Installing Pixel White BootAnimation");
+package_extract_dir("system/media/white.zip", "/system/media/bootanimation.zip");
+endif;
+
+if file_getprop("selectbox.prop","selected.0") == "3" then
+ui_print(">>> Deleting stock camera");
+delete("/system/app/Camera2");
+ui_print(">>> Installing Google Camera 4.2");
+package_extract_dir("data/app/GoogleCamera.apk", "/data/app");
+endif;
+
+if file_getprop("selectbox.prop","selected.0") == "4" then
+ui_print(">>> Deleting stock camera");
+delete("/system/app/Camera2");
+ui_print(">>> Installing Google Camera 3.2");
+package_extract_dir("data/app/LegacyGoogleCamera.apk", "/data/app");
+endif;
+
+########## END OF AROMA ##########
+
+ui_print(">> Unmounting partitions");
+set_progress(0.99);
+run_program("/sbin/busybox", "umount", "/system");
+ui_print("");
+ui_print("");
+ui_print(">>> Setup Complete");
+set_progress(1.0);

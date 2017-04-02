@@ -1,0 +1,20 @@
+﻿<@center><b>23.02.2015</b></@>
+- <b>FINALLY!</b> Fixed installation bar
+- Fixed some derps
+
+<@center><b>12.10.2014</b></@>
+- Update splash
+- New check/view boxes
+- New colors:
+-> Blue
+-> Pink
+-> Purple
+-> Red
+-> Yellow
+- Added ability to view all this colors via Aroma
+
+<@center><b>11.10.2014</b></@>
+- Many icons from L
+- Color gamma from L
+- Fonts from L
+- Many more...

@@ -1,0 +1,192 @@
+﻿ini_set("force_colorspace","rgba");
+anisplash(1,
+"splash/material5", 500,
+"splash/material4", 500,
+"splash/material3", 500,
+"splash/material2", 500,
+"splash/material1", 500,
+"splash/material", 300);
+
+fontresload( "0", "ttf/Roboto-Regular.ttf", "12" );
+fontresload( "1", "ttf/Roboto-Regular.ttf", "16" );
+
+theme("material_blue");
+
+ini_set("text_next", 				"Next");
+ini_set("text_back", 				"Back");
+ini_set("text_no", 					"No");
+ini_set("text_yes", 				"Yes");
+ini_set("text_quit", 				"Quit");
+ini_set("text_quit_msg", 			"Do you really want quit Aroma?");
+ini_set("text_about", 				"About");
+
+########################################################################
+###########################Information##################################
+########################################################################
+
+ini_set("rom_name",             "Pixel AROMA");
+ini_set("rom_author",           "marcomarinho");
+ini_set("rom_android",           "Android 7.1.x");
+
+########################################################################
+##############################Aroma#####################################
+########################################################################
+
+ini_set("rom_version",          "1.00");
+ini_set("rom_date",             "04.04.2017");
+
+########################################################################
+################################Welcome#################################
+########################################################################
+
+viewbox(
+  "Welcome",
+  "You are going to look at:\n\n<b>"+
+ ini_get("rom_name") + "</b> for " + ini_get("rom_device") +  " screen\n\n\n\n\n\n"+
+  "  <#selectbg_g><b>Version</b>:  				" + ini_get("rom_version") + "\n"+
+  "  <b>Release date</b>:  			" + ini_get("rom_date") +  "\n"+
+  "  <b>Developer</b>: 					" + ini_get("rom_author") + "\n"+
+  "  <b>ROM Version</b>:  					" + ini_get("rom_android") + "\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+  "Press <b>Next</b> to start installation.</#>",
+  "@welcome"
+);
+
+agreebox(
+	"Terms of Use",
+	"If you agree with this terms of use just press ''ОК'':",
+	"@text",
+	"" + readfile_aroma("agreement.txt"),
+	"ОК",
+	"To start installation you should press OK button."
+);
+
+textbox(
+	"Changelog",
+	"This is full changelog:",
+	"@text",
+	resread("changelog.txt")
+);
+
+########################################################################
+#############################Customizations#############################
+########################################################################
+
+checkbox(
+  "Euclidean OS",
+  "<b>Selection</b>",
+	"Will remove stock AOSP apps"
+  "@device",
+  "checkbox.prop",
+		"System Apps",		"", 	2,
+			"Pixel Launcher",			"Android O default launcher", 	0,
+			"Pixel Launcher Icons", "Pixel Launcher round icons", 	0,
+			"Pixel Sounds",       "Ringtones, Notifications & Alarms", 	0
+		"Data Apps",		"", 	2,
+		  "Google Calculator",  "Latest Google Calculator", 	0,
+			"Google Calendar",		"Latest Google Calendar", 	0,
+			"Google Chrome",			"Latest Google Chrome Stable", 	 0,
+			"Google Clock",				"Latest Google Clock" 	0,
+			"Google Dialer",			"Latest Google Phone", 	0,
+			"Google Keyboard",		"Latest G-Board", 	0,
+			"Google Messages",		"Latest Google Messages", 	0,
+			"Google Wallpapers",	"Official Pixel Launcher Wallpapers", 	0,
+			"Google WebView",			"Latest Google WebView Stable", 	0
+);
+
+selectbox(
+	"Euclidean OS",
+	"<b>Options</b>",
+	"@install",
+	"selectbox.prop",
+		"BootAnimations",		"", 	2,
+			"Pixel Black",			  "Black background", 	1,
+			"Pixel White",			  "White background", 	0
+		"Google Camera",		"", 	2,
+			"Google Camera 4.2",	"Latest Google Camera", 	0,
+			"Google Camera 3.2",	"Patched Google Camera", 	1
+);
+
+########################################################################
+############################Installation################################
+########################################################################
+if
+  confirm(
+    "Installation",
+    "<@center>You are about to install \n\n<b>"+ ini_get("rom_name") + "</b>\n\nDo you want to continue?</@>",
+    "@warning",
+    "Yes",
+    "No"
+  )=="yes"
+then
+	install(
+		"<b>Installing</b> desired applications:",
+		"@install",
+		"Installation of <b>"+ini_get("rom_name")+"</b> completed."
+	);
+
+########################################################################
+###########################Ending############################
+########################################################################
+
+	ini_set("text_next", "End");
+
+	checkviewbox(
+		"Installation Finished",
+		"<b>"+ini_get("rom_name")+" "+ini_get("rom_version")+"</b> was installed on your phone.\n\n\n\n"+
+		"<#selectbg_g>To start Android reboot your phone.</#>\n\n\n"+
+		"<#selectbg_g>Do you want come back to main menu?</#>\n\n"+
+		"<#selectbg_g>In main menu you can just review all the apps.</#>",
+		"@device",
+		"Back to main menu.",
+		"0",
+		"goto_mainmenu"
+	);
+
+	if
+		getvar("goto_mainmenu")=="1"
+	then
+		goto("main_menu");
+	endif;
+
+	if
+		confirm(
+		"Reboot",
+		"<@center>Do you want reboot your device?</@>",
+		"@warning",
+		"Yes",
+		"No"
+		)=="Yes"
+	then
+		reboot("onfinish");
+	endif;
+else
+ checkviewbox(
+	 "Installation Finished",
+	 "<b>"+ini_get("rom_name")+" "+ini_get("rom_version")+"</b> was installed on your phone.\n\n\n\n"+
+	 "<#selectbg_g>To start Android reboot your phone.</#>\n\n\n"+
+	 "<#selectbg_g>Do you want come back to main menu?</#>\n\n"+
+	 "<#selectbg_g>In main menu you can just review all the apps.</#>",
+	 "@device",
+	 "Back to main menu.",
+	 "0",
+	 "goto_mainmenu"
+ );
+
+	if
+		getvar("goto_mainmenu")=="1"
+	then
+		goto("main_menu");
+	endif;
+
+	if
+		confirm(
+		"Reboot",
+		"<@center>Do you want reboot your device?</@>",
+		"@warning",
+		"Yes",
+		"No"
+		)=="Yes"
+	then
+		reboot("onfinish");
+	endif;
+endif;
