@@ -46,7 +46,7 @@ viewbox(
   "  <#selectbg_g><b>Version</b>:  				" + ini_get("rom_version") + "\n"+
   "  <b>Release date</b>:  			" + ini_get("rom_date") +  "\n"+
   "  <b>Developer</b>: 					" + ini_get("rom_author") + "\n"+
-  "  <b>ROM Version</b>:  					" + ini_get("rom_android") + "\n\n\n\n\n\n\n\n\n\n\n\n\n"+
+  "  <b>Android Version</b>:  					" + ini_get("rom_android") + "\n\n\n\n\n\n\n\n\n\n\n\n\n"+
   "Press <b>Next</b> to start installation.</#>",
   "@welcome"
 );
@@ -74,21 +74,20 @@ textbox(
 checkbox(
   "Euclidean OS",
   "<b>Selection</b>",
-	"Will remove stock AOSP apps"
   "@device",
   "checkbox.prop",
 		"System Apps",		"", 	2,
 			"Pixel Launcher",			"Android O default launcher", 	0,
 			"Pixel Launcher Icons", "Pixel Launcher round icons", 	0,
-			"Pixel Sounds",       "Ringtones, Notifications & Alarms", 	0
+			"Pixel Sounds",       "Ringtones Notifications Alarms", 	0,
 		"Data Apps",		"", 	2,
-		  "Google Calculator",  "Latest Google Calculator", 	0,
-			"Google Calendar",		"Latest Google Calendar", 	0,
+		  "Google Calculator",  "Latest Google Calculator", 	1,
+			"Google Calendar",		"Latest Google Calendar", 	1,
 			"Google Chrome",			"Latest Google Chrome Stable", 	 0,
-			"Google Clock",				"Latest Google Clock" 	0,
-			"Google Dialer",			"Latest Google Phone", 	0,
-			"Google Keyboard",		"Latest G-Board", 	0,
-			"Google Messages",		"Latest Google Messages", 	0,
+			"Google Clock",				"Latest Google Clock", 	1,
+			"Google Dialer",			"Latest Google Phone", 	1,
+			"Google Keyboard",		"Latest G Board", 	1,
+			"Google Messages",		"Latest Google Messages", 	1,
 			"Google Wallpapers",	"Official Pixel Launcher Wallpapers", 	0,
 			"Google WebView",			"Latest Google WebView Stable", 	0
 );
@@ -100,7 +99,7 @@ selectbox(
 	"selectbox.prop",
 		"BootAnimations",		"", 	2,
 			"Pixel Black",			  "Black background", 	1,
-			"Pixel White",			  "White background", 	0
+			"Pixel White",			  "White background", 	0,
 		"Google Camera",		"", 	2,
 			"Google Camera 4.2",	"Latest Google Camera", 	0,
 			"Google Camera 3.2",	"Patched Google Camera", 	1

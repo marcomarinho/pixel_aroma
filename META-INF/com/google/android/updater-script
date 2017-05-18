@@ -18,15 +18,14 @@ ui_print("                    devices.                  ");
 ui_print("==============================================");
 ui_print(" ");
 
+ifelse(is_mounted("/system"), run_program("/sbin/busybox", "umount", "/system"));
+ifelse(is_mounted("/data"), run_program("/sbin/busybox", "umount", "/data"));
 ui_print(">> Mounting partitions");
 set_progress(0.15);
 run_program("/sbin/busybox", "mount", "/system");
+run_program("/sbin/busybox", "mount", "/data");
 ui_print("");
 ui_print("");
-
-ui_print(">> Writing System");
-set_progress(0.30);
-package_extract_dir("common/system", "/system");
 
 ui_print(">> Formatting Cache & Dalvik Cache");
 delete_recursive("/cache");
@@ -37,114 +36,116 @@ delete_recursive("/data/dalvik-cache");
 
 # Options for Google Pixel Apps
 
-if file_getprop("checkbox.prop","item.0.1") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.1") == "1" then
 ui_print(">>> Installing Pixel Launcher ");
-delete("/system/app/Launcher3");
-package_extract_dir("system/priv-app/PixelLauncher.apk", "/system/priv-app/PixelLauncher");
+delete_recursive("/system/app/Launcher3");
+run_program("/sbin/busybox", "mkdir", "/system/priv-app/PixelLauncher");
+package_extract_file("system/priv-app/PixelLauncher.apk", "/system/priv-app/PixelLauncher");
 endif;
 
-if file_getprop("checkbox.prop","item.0.2") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.2") == "1" then
 ui_print(">>> Installing Pixel Launcher Icons ");
-package_extract_dir("system/app/PixelIcons.apk", "/system/app/PixelIcons");
+run_program("/sbin/busybox", "mkdir", "/system/app/PixelIcons");
+package_extract_file("system/app/PixelIcons.apk", "/system/app/PixelIcons/PixelIcons.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.3") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.3") == "1" then
 ui_print(">>> Installing Pixel Sounds");
 package_extract_dir("system/media/audio", "/system/media/audio");
 endif;
 
-if file_getprop("checkbox.prop","item.0.4") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.4") == "1" then
 ui_print(">>> Deleting stock calculator");
-delete("/system/app/ExactCalculator");
+delete_recursive("/system/app/ExactCalculator");
 ui_print(">>> Installing Google Calculator");
-package_extract_dir("data/app/GoogleCalculator.apk", "/data/app");
+package_extract_file("data/app/GoogleCalculator.apk", "/data/app/GoogleCalculator.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.5") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.5") == "1" then
 ui_print(">>> Deleting stock calendar");
-delete("/system/app/Calendar");
+delete_recursive("/system/app/Calendar");
 ui_print(">>> Installing Google Calendar");
-package_extract_dir("data/app/GoogleCalendar.apk", "/data/app");
+package_extract_file("data/app/GoogleCalendar.apk", "/data/app/GoogleCalendar.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.6") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.6") == "1" then
 ui_print(">>> Deleting stock browser");
-delete("/system/app/Browser2");
+delete_recursive("/system/app/Browser2");
 ui_print(">>> Installing Google Chrome");
-package_extract_dir("data/app/GoogleChrome.apk", "/data/app");
+package_extract_file("data/app/GoogleChrome.apk", "/data/app/GoogleChrome.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.7") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.7") == "1" then
 ui_print(">>> Deleting stock clock");
-delete("/system/app/DeskClock");
+delete_recursive("/system/app/DeskClock");
 ui_print(">>> Installing Google Clock");
-package_extract_dir("data/app/GoogleClock.apk", "/data/app");
+package_extract_file("data/app/GoogleClock.apk", "/data/app/GoogleClock.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.8") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.8") == "1" then
 ui_print(">>> Deleting stock dialer & contacts");
-delete("/system/priv-app/Contacts");
-delete("/system/priv-app/Dialer");
+delete_recursive("/system/priv-app/Contacts");
+delete_recursive("/system/priv-app/Dialer");
 ui_print(">>> Installing Google Dialer & Contacts");
-package_extract_dir("data/app/GoogleContacts.apk", "/data/app");
-package_extract_dir("data/app/GoogleDialer.apk", "/data/app");
+package_extract_file("data/app/GoogleContacts.apk", "/data/app/GoogleContacts.apk");
+package_extract_file("data/app/GoogleDialer.apk", "/data/app/GoogleDialer.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.9") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.9") == "1" then
 ui_print(">>> Deleting stock keyboard");
-delete("/system/app/LatinIME");
+delete_recursive("/system/app/LatinIME");
 ui_print(">>> Installing G-Board");
-package_extract_dir("data/app/LatinIME.apk", "/data/app");
+package_extract_file("data/app/LatinIME.apk", "/data/app/LatinIME.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.10") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.10") == "1" then
 ui_print(">>> Deleting stock messages");
-delete("/system/app/messaging");
+delete_recursive("/system/app/messaging");
 ui_print(">>> Installing Google Messages");
-package_extract_dir("data/app/GoogleMessages.apk", "/data/app");
+package_extract_file("data/app/GoogleMessages.apk", "/data/app/GoogleMessages.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.11") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.11") == "1" then
 ui_print(">>> Installing Google Wallpapers");
-package_extract_dir("data/app/GoogleWallpapers.apk", "/data/app");
-package_extract_dir("data/app/GoogleWallpapersUsTwo.apk", "/data/app");
+package_extract_file("data/app/GoogleWallpapers.apk", "/data/app/GoogleWallpapers.apk");
+package_extract_file("data/app/GoogleWallpapersUsTwo.apk", "/data/app/GoogleWallpapersUsTwo.apk");
 endif;
 
-if file_getprop("checkbox.prop","item.0.12") == "1" then
+if file_getprop("/tmp/aroma/checkbox.prop","item.1.12") == "1" then
 ui_print(">>> Deleting stock webview");
-delete("/system/app/webview");
+delete_recursive("/system/app/webview");
 ui_print(">>> Installing Google WebView");
-package_extract_dir("data/app/GoogleWebView.apk", "/data/app");
+package_extract_file("data/app/GoogleWebView.apk", "/data/app/GoogleWebView.apk");
 endif;
 
 # Options for selectbox
 
-if file_getprop("selectbox.prop","selected.0") == "1" then
+if file_getprop("/tmp/aroma/selectbox.prop","selected.0") == "1" then
 ui_print(">>> Deleting old bootanimation");
 delete("/system/media/bootanimation.zip");
 ui_print(">>> Installing Pixel Black BootAnimation");
-package_extract_dir("system/media/black.zip", "/system/media/bootanimation.zip");
+package_extract_file("system/media/black.zip", "/system/media/bootanimation.zip");
 endif;
 
-if file_getprop("selectbox.prop","selected.0") == "2" then
+if file_getprop("/tmp/aroma/selectbox.prop","selected.0") == "2" then
 ui_print(">>> Deleting old bootanimation");
 delete("/system/media/bootanimation.zip");
 ui_print(">>> Installing Pixel White BootAnimation");
-package_extract_dir("system/media/white.zip", "/system/media/bootanimation.zip");
+package_extract_file("system/media/white.zip", "/system/media/bootanimation.zip");
 endif;
 
-if file_getprop("selectbox.prop","selected.0") == "3" then
+if file_getprop("/tmp/aroma/selectbox.prop","selected.0") == "3" then
 ui_print(">>> Deleting stock camera");
-delete("/system/app/Camera2");
+delete_recursive("/system/app/Camera2");
 ui_print(">>> Installing Google Camera 4.2");
-package_extract_dir("data/app/GoogleCamera.apk", "/data/app");
+package_extract_file("data/app/GoogleCamera.apk", "/data/app/GoogleCamera.apk");
 endif;
 
-if file_getprop("selectbox.prop","selected.0") == "4" then
+if file_getprop("/tmp/aroma/selectbox.prop","selected.0") == "4" then
 ui_print(">>> Deleting stock camera");
-delete("/system/app/Camera2");
+delete_recursive("/system/app/Camera2");
 ui_print(">>> Installing Google Camera 3.2");
-package_extract_dir("data/app/LegacyGoogleCamera.apk", "/data/app");
+package_extract_file("data/app/LegacyGoogleCamera.apk", "/data/app/LegacyGoogleCamera.apk");
 endif;
 
 ########## END OF AROMA ##########
@@ -152,6 +153,7 @@ endif;
 ui_print(">> Unmounting partitions");
 set_progress(0.99);
 run_program("/sbin/busybox", "umount", "/system");
+run_program("/sbin/busybox", "umount", "/data");
 ui_print("");
 ui_print("");
 ui_print(">>> Setup Complete");
